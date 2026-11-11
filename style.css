@@ -1,0 +1,207 @@
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+}
+
+body { 
+    background: #f0f4f8; 
+    color: #1f2937; 
+    min-height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    padding: 20px 16px;
+}
+
+/* Container Principal do Card Web */
+.container {
+    width: 100%;
+    max-width: 680px;
+}
+
+.web-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.nav-back { 
+    font-size: 11px; 
+    font-weight: 800; 
+    color: #0f5257; 
+    letter-spacing: 0.5px; 
+    margin-bottom: 8px; 
+    text-transform: uppercase; 
+    cursor: pointer;
+    display: inline-block;
+}
+.nav-back:hover { text-decoration: underline; }
+
+.title { font-size: 26px; font-weight: 800; color: #111827; margin-bottom: 4px; }
+.step-tag { font-size: 12px; font-weight: 700; color: #6b7280; margin-bottom: 16px; }
+
+.progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-bottom: 24px; overflow: hidden; }
+.progress-fill { height: 100%; background: #0f5257; width: 50%; transition: width 0.4s ease; }
+
+.subtitle { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 6px; }
+.desc { font-size: 13px; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
+
+/* Estilização de Formulários */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 500px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.field-group { margin-bottom: 18px; }
+.field-label { font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 8px; display: block; }
+
+.input-box {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.input-box:focus { border-color: #0f5257; }
+
+.radio-group { display: flex; gap: 12px; }
+.radio-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s;
+}
+.radio-btn.active { border-color: #0f5257; background: #e6f4ea; color: #0f5257; font-weight: 700; }
+
+.info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #475569;
+    margin: 20px 0 28px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-primary {
+    width: 100%;
+    background: #0f5257;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s;
+}
+.btn-primary:hover { background: #0a3a3e; }
+
+/* Tela 2 - Diagnóstico */
+#screen2 { display: none; }
+
+.success-card {
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.eligible-card { background: #e6f4ea; border: 1px solid #c3e6cb; }
+.ineligible-card { background: #fef2f2; border: 1px solid #fecaca; }
+
+.badge-success { font-size: 11px; font-weight: 800; color: #137333; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+.badge-info { font-size: 11px; font-weight: 800; color: #991b1b; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+.result-title { font-size: 22px; font-weight: 800; color: #0f5257; margin-bottom: 8px; }
+.result-title-neg { font-size: 22px; font-weight: 800; color: #991b1b; margin-bottom: 8px; }
+
+.result-sub { font-size: 13px; color: #2d5b37; line-height: 1.5; }
+.result-sub-neg { font-size: 13px; color: #7f1d1d; line-height: 1.5; }
+
+.checklist-title { font-size: 15px; font-weight: 700; color: #111827; margin-bottom: 14px; }
+.check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+.check-icon { color: #0f5257; font-weight: bold; font-size: 16px; }
+
+/* Ações e Botões Ajustados */
+.action-buttons { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    margin-top: 20px; 
+}
+
+.btn-outline {
+    width: 100%;
+    background: transparent;
+    color: #0f5257;
+    border: 2px solid #0f5257;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    margin-top: 0;
+}
+.btn-outline:hover { background: #e6f4ea; }
+
+.btn-secondary {
+    width: 100%;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    margin-top: 0;
+}
+.btn-secondary:hover { background: #e5e7eb; }
+
+footer {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+}
