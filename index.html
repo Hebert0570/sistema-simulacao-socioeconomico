@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Simulação Socioeconômico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="web-card">
+        
+        <!-- TELA 1 -->
+        <div id="screen1">
+            <div class="nav-back">ASSISTÊNCIA SOCIAL DF</div>
+            <div class="title">Simulação Socioeconômica</div>
+            <div class="step-tag">ETAPA 1 DE 2 • Dados da Família</div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+
+            <div class="subtitle">Vamos conhecer sua família</div>
+            <div class="desc">Preencha as informações básicas abaixo para verificar a elegibilidade aos programas sociais estaduais.</div>
+
+            <div class="grid-2">
+                <div class="field-group">
+                    <label class="field-label">Renda Familiar Mensal Total (R$)</label>
+                    <input type="number" id="rendaInput" class="input-box" value="0">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Número de Moradores na Residência</label>
+                    <input type="number" id="moradoresInput" class="input-box" value="4">
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Região Administrativa (RA)</label>
+                <select id="raSelect" class="input-box">
+                    <option value="Ceilândia Norte">Ceilândia Norte</option>
+                    <option value="Ceilândia Sul">Ceilândia Sul</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Possui cadastro ativo no CadÚnico?</label>
+                <select id="cadUnicoSelect" class="input-box">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+
+            <div class="info-card">
+                <span>ⓘ</span>
+                <span>O resultado emitido é uma prévia informativa. A validação legal é efetuada no CRAS.</span>
+            </div>
+
+            <button class="btn-primary" onclick="executarMotor()">Simular Benefícios →</button>
+        </div>
+
+        <!-- TELA 2 -->
+        <div id="screen2">
+            <div class="nav-back" onclick="voltarParaFormulario()">← VOLTAR PARA O FORMULÁRIO</div>
+            <div class="title">Resultado da Simulação</div>
+            <div class="step-tag">ETAPA 2 DE 2 • Diagnóstico</div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+
+            <div id="cardResultado" class="success-card">
+                <!-- Diagnóstico dinâmico do motor -->
+            </div>
+
+            <div class="checklist-title">Documentação Solicitada no Atendimento Presencial</div>
+            <div class="check-item"><span class="check-icon">✓</span> Documento Oficial de Identidade e CPF</div>
+            <div class="check-item"><span class="check-icon">✓</span> Comprovante de Residência Atualizado</div>
+            <div class="check-item"><span class="check-icon">✓</span> Folha do CadÚnico</div>
+
+            <div class="action-buttons">
+                <a id="linkCras" href="https://maps.app.goo.gl/gfWX9Lt2NUqzpyZN7" target="_blank" class="btn-outline">
+                    Ver Localização do CRAS Ceilândia Norte →
+                </a>
+                
+                <button class="btn-secondary" onclick="voltarParaFormulario()">
+                    ↺ Refazer Simulação com Novos Dados
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Projeto Acadêmico ADS — Centro Universitário UDF (2026.2)
+    </footer>
+</div>
+
+<script>
+    function executarMotor() {
+        const renda = parseFloat(document.getElementById('rendaInput').value) || 0;
+        const moradores = parseInt(document.getElementById('moradoresInput').value) || 1;
+        const ra = document.getElementById('raSelect').value;
+        const temCadUnico = document.getElementById('cadUnicoSelect').value === 'sim';
+        
+        const perCapita = renda / moradores;
+
+        // Regra de Negócio: Ambos os benefícios exigem CadÚnico Ativo (temCadUnico === true)
+        const elegivelDFSocial = temCadUnico && (perCapita <= 218.00);
+        const elegivelPratoCheio = temCadUnico && (perCapita <= 706.00);
+
+        const card = document.getElementById('cardResultado');
+        const linkCras = document.getElementById('linkCras');
+
+        // Mapeamento dinâmico do CRAS por RA
+        if (ra === 'Ceilândia Norte') {
+            linkCras.href = "https://maps.app.goo.gl/gfWX9Lt2NUqzpyZN7";
+            linkCras.innerText = "Ver Localização do CRAS Ceilândia Norte →";
+        } else {
+            linkCras.href = "https://maps.app.goo.gl/4T85mCxUmyvvtbyH9";
+            linkCras.innerText = "Ver Localização do CRAS Ceilândia Sul →";
+        }
+
+        let beneficios = [];
+        if (elegivelDFSocial) beneficios.push("DF Social");
+        if (elegivelPratoCheio) beneficios.push("Prato Cheio");
+
+        if (beneficios.length > 0) {
+            card.className = "success-card eligible-card";
+            card.innerHTML = `
+                <div class="badge-success">✓ SIMULAÇÃO CONCLUÍDA</div>
+                <div class="result-title">Perfil Elegível para: ${beneficios.join(' e ')}</div>
+                <div class="result-sub">Renda per capita calculada: R$ ${perCapita.toFixed(2)}/pessoa.<br>Dirija-se ao CRAS de ${ra} com os documentos para avaliação formal do cadastro.</div>
+            `;
+        } else {
+            card.className = "success-card ineligible-card";
+            card.innerHTML = `
+                <div class="badge-info">ⓘ LIMITE SOCIOECONÔMICO EXCEDIDO OU CADÚNICO AUSENTE</div>
+                <div class="result-title-neg">Perfil Fora dos Limites Automáticos</div>
+                <div class="result-sub-neg">Renda per capita calculada: R$ ${perCapita.toFixed(2)}/pessoa.<br>Para concessão automática, é necessário possuir CadÚnico ativo e renda dentro dos tetos estipulados (R$ 218,00 para DF Social e R$ 706,00 para Prato Cheio). Procure orientação presencial no CRAS de ${ra}.</div>
+            `;
+        }
+
+        document.getElementById('screen1').style.display = 'none';
+        document.getElementById('screen2').style.display = 'block';
+    }
+
+    function voltarParaFormulario() {
+        document.getElementById('screen2').style.display = 'none';
+        document.getElementById('screen1').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
